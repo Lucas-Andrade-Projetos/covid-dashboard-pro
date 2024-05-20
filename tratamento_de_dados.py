@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as plt
 from datetime import datetime
-
+#recarregando dados
 #05-03-2024
 #data on influenza cases obtained in https://opendatasus.saude.gov.br/dataset/srag-2021-a-2024
 df = pd.read_csv('data.csv', sep=';')
