@@ -3,15 +3,16 @@ import pandas as pd
 import plotly.express as px
 import matplotlib.pyplot as plt
 from datetime import datetime
-
+#recarregando dados
 #05-03-2024
 #data on influenza cases obtained in https://opendatasus.saude.gov.br/dataset/srag-2021-a-2024
 df = pd.read_csv('data.csv', sep=';')
-df2 = pd.read_csv('data2.csv', sep=';')
-df3 = pd.read_csv('data3.csv', sep=';')
+#df2 = pd.read_csv('data2.csv', sep=';')
+#df3 = pd.read_csv('data3.csv', sep=';')
 
 # Concatenar os DataFrames
-df = pd.concat([df, df2, df3], ignore_index=True)
+#df = pd.concat([df, df2, df3], ignore_index=True)
+df = pd.concat([df], ignore_index=True)
 print(df.info())
 
 # Selecionar colunas desejadas
@@ -46,6 +47,9 @@ for coluna in colunas_booleanas:
 tipos_string = {'SG_UF_NOT': 'string', 'CS_SEXO': 'string'}
 df_alterado = df_alterado.astype(tipos_string)
 tipos_int = {'NU_IDADE_N': int}
+
+# Aplicar filtro para idades entre 1 e 95 anos
+df_alterado = df_alterado[(df_alterado['NU_IDADE_N'] >= 1) & (df_alterado['NU_IDADE_N'] <= 95)]
 
 # Verificar quais valores na coluna 'EVOLUCAO' não podem ser convertidos para inteiros
 invalid_values = df_alterado[~df_alterado['EVOLUCAO'].apply(lambda x: str(x).isdigit())]['EVOLUCAO']
@@ -262,6 +266,7 @@ df_filtrado = df_alterado[(df_alterado['CS_SEXO'] != 'I') & (df_alterado['CS_SEX
 
 # Calcular a idade média
 idade_media = df_filtrado['NU_IDADE_N'].mean()
+
 print(f"A média de idade dos pacientes é de {idade_media:.0f} anos.")
 
 # Criar um gráfico de pizza com a distribuição dos valores em 'CS_SEXO' e definir uma paleta de cores
